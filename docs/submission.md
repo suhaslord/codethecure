@@ -47,9 +47,9 @@ The included `gainguard-demo.mp4` is a 2-minute-56-second narrated research demo
 
 **Is this a better cancer classifier?** No such claim. The baseline is deliberately small and inspectable. The deliverable is an audit of its failure behavior.
 
-**Does the review rule improve safety?** That is not established. It captures more observed errors at these thresholds while flagging many more images. At −6 dB, two unflagged predictions remain wrong. A matched-budget study on external data is required.
+**Does the review rule improve safety?** That is not established. The fixed baseline captures more observed errors while flagging many more images. At −6 dB, two unflagged baseline predictions remain wrong. The validation-only search selects an 88% confidence / 15 pp combined rule under a 50% average validation review budget. Frozen test capture is 88.7% at 55.9% review, versus 59.0% capture at 49.4% review for the separately selected 95% confidence-only rule. Test workloads differ; prospective matched-budget evaluation on external data is still required.
 
-**Did test labels determine the flags?** No. The flag uses original/stressed model outputs and fixed 80% / 15-percentage-point thresholds. Labels evaluate errors afterward. The illustrative failure example is explicitly selected using held-out labels after evaluation; it is not evidence for model selection.
+**Did test labels determine the flags?** No. The live baseline uses model outputs with fixed 80% / 15 pp cutoffs. The additional study selects cutoffs on validation only, freezes them, then evaluates test outcomes. A unit test changes test labels and confirms selected cutoffs remain unchanged. The illustrative failure example is selected using held-out labels after evaluation; it is not evidence for model selection. Because the study followed the original report, we disclose it as exploratory, not prospectively preregistered.
 
 **What about leakage and patient independence?** We preserve official image split membership and never train/select on test labels. The release does not give us verified patient identifiers for a patient-grouped audit. We cannot claim patient independence; duplicates and source shortcuts remain possible.
 

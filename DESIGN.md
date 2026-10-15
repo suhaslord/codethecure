@@ -119,7 +119,7 @@ The palette is a green-tinted neutral foundation with operational green and sema
 
 ## Typography
 
-**Display and body font:** self-hosted Public Sans, with the platform sans-serif fallbacks recorded above.  
+**Display and body font:** self-hosted Public Sans, with the platform sans-serif fallbacks recorded above.
 **Measurement font:** Consolas, Courier New, monospace.
 
 The ramp is deliberately compact rather than a geometric scale. Large, tightly tracked headings frame the task; mid-size section titles organize the workspace; small text supports dense research content. The final stylesheet overrides supersede earlier smaller control and result sizes.
@@ -199,4 +199,3 @@ Two dark, rounded fields contain the actual original and transformed ultrasound 
 - **Don't** add clinical visual theater to the user-approved research workbench.
 
 Not canonized: the tiny in-image scan annotations (5–7px in source) remain a legibility limitation, not a reusable label role; the unused lime custom property and isolated local color adjustments are not system tokens.
-
