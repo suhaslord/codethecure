@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#123c34" />
+    <meta
+      name="description"
+      content="A reproducible research lab for testing breast-ultrasound classifier reliability under simulated acquisition changes."
+    />
+    <title>GainGuard — Ultrasound reliability lab</title>
+    <link rel="icon" href="/mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/app.js"></script>
+    <script src="/deployment.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to workspace</a>
+    <header class="app-header">
+      <a href="#lab" class="brand" aria-label="GainGuard home"
+        ><svg viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M3 17h5l3-9 5 17 4-13 3 5h6" /></svg
+        ><span>GainGuard<span class="brand-dot">.</span></span></a
+      >
+      <nav aria-label="Workspace">
+        <a href="#lab" data-route="lab" aria-current="page">Experiment lab</a
+        ><a href="#benchmark" data-route="benchmark">Benchmark</a
+        ><a href="#queue" data-route="queue"
+          >Review queue <span id="queue-count">0</span></a
+        ><a href="#methods" data-route="methods">Methods</a>
+      </nav>
+      <span class="research-badge"><span></span>Research prototype</span>
+    </header>
+    <div class="notice">
+      <svg viewBox="0 0 20 20" aria-hidden="true">
+        <path d="M10 2 1.5 17h17L10 2Z" />
+        <path d="M10 7v4m0 2.5v.5" /></svg
+      >For model-reliability research only. No diagnosis, patient uploads or
+      clinical recommendations.
+    </div>
+    <div id="boot-error" class="boot-error" role="alert" hidden></div>
+    <div id="loading" class="loading-screen" role="status">
+      <span class="loader"></span>Loading model and held-out benchmark…
+    </div>
+    <div id="app" hidden>
+      <section
+        id="view-lab"
+        class="view lab-layout"
+        aria-label="Experiment lab"
+      >
+        <aside class="sample-sidebar" aria-label="Held-out samples">
+          <div class="sidebar-title">
+            <h2>Sample library</h2>
+            <span>156</span>
+          </div>
+          <p class="sidebar-description">BreastMNIST · test split</p>
+          <label class="search-field"
+            ><svg viewBox="0 0 20 20" aria-hidden="true">
+              <circle cx="8.5" cy="8.5" r="5.5" />
+              <path d="m13 13 4 4" /></svg
+            ><input
+              id="sample-search"
+              type="search"
+              placeholder="Find sample…"
+              aria-label="Find sample by ID"
+          /></label>
+          <label class="filter-label" for="sample-filter"
+            >Dataset label / outcome</label
+          >
+          <select id="sample-filter">
+            <option value="all">All test images</option>
+            <option value="malignant">Malignant label</option>
+            <option value="benign">Normal / benign label</option>
+            <option value="error">Clean-model errors</option>
+          </select>
+          <div
+            id="sample-list"
+            class="sample-list"
+            role="group"
+            aria-label="Select an image"
+          ></div>
+          <div class="sidebar-foot">
+            <span class="small-dot"></span>Real images. Fixed test split.<br /><a
+              href="#methods"
+              >View provenance and limitations
+              <svg class="outbound-icon" viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M5 15 15 5M5 5h10v10" /></svg
+            ></a>
+          </div>
+        </aside>
+        <main id="main" class="workspace" tabindex="-1">
+          <div class="page-intro">
+            <div>
+              <h1>Same image.<br /><span>Different confidence?</span></h1>
+              <p>
+                Stress-test a breast-ultrasound classifier against simulated
+                acquisition changes. See when its certainty stops being
+                reliable.
+              </p>
+            </div>
+            <button id="load-case" class="button button-outline">
+              <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="m8 4 7 6-7 6V4Z" /></svg
+              >Load failure example
+            </button>
+          </div>
+          <div class="experiment-heading">
+            <div>
+              <h2 id="sample-name">Paired experiment</h2>
+              <span id="sample-ground-truth" class="muted"></span>
+            </div>
+            <span class="model-tag">CNN · temperature calibrated</span>
+          </div>
+          <div class="workbench">
+            <div class="scan-pair">
+              <figure class="scan">
+                <figcaption>
+                  <span>Original</span><span>Reference image</span>
+                </figcaption>
+                <div class="scan-image">
+                  <img
+                    id="original-image"
+                    src="/api/image?id=1"
+                    hidden
+                    alt="Original held-out breast ultrasound"
+                  /><span class="scan-label">B-MODE / RESEARCH</span
+                  ><span class="scan-resolution">64 × 64 px</span>
+                </div>
+                <div class="scan-caption">
+                  <span>Model output</span
+                  ><strong id="original-prediction">—</strong>
+                </div>
+                <div class="probability-track">
+                  <div id="original-bar"></div>
+                </div>
+                <div class="scan-probability" id="original-confidence"></div>
+              </figure>
+              <figure class="scan">
+                <figcaption>
+                  <span>Stressed</span
+                  ><span id="stressed-state">Computed transform</span>
+                </figcaption>
+                <div class="scan-image">
+                  <img
+                    id="transformed-image"
+                    src="/api/image?id=1"
+                    hidden
+                    alt="Same ultrasound after the selected digital stress transforms"
+                  /><span class="scan-label" id="scan-transform-label"
+                    >SIMULATED ACQUISITION</span
+                  ><span class="scan-resolution">64 × 64 px</span>
+                </div>
+                <div class="scan-caption">
+                  <span>Model output</span
+                  ><strong id="changed-prediction">—</strong>
+                </div>
+                <div class="probability-track">
+                  <div id="changed-bar"></div>
+                </div>
+                <div class="scan-probability" id="changed-confidence"></div>
+              </figure>
+            </div>
+            <form id="experiment-form" class="controls">
+              <div class="controls-heading">
+                <h3>Acquisition controls</h3>
+                <button class="text-button" id="reset-controls" type="button">
+                  Reset
+                </button>
+              </div>
+              <p>Digital stress proxies applied to the same source pixels.</p>
+              <label class="slider-label" for="gain"
+                >Gain shift
+                <output id="gain-value" for="gain">−6 dB</output></label
+              ><input
+                type="range"
+                id="gain"
+                min="-12"
+                max="12"
+                step="1"
+                value="-6"
+              />
+              <div class="range-endpoints">
+                <span>−12 dB</span><span>+12 dB</span>
+              </div>
+              <label class="slider-label" for="speckle"
+                >Speckle noise
+                <output id="speckle-value" for="speckle">0.00 σ</output></label
+              ><input
+                type="range"
+                id="speckle"
+                min="0"
+                max="0.6"
+                step="0.05"
+                value="0"
+              />
+              <div class="range-endpoints">
+                <span>None</span><span>0.60 σ</span>
+              </div>
+              <label class="slider-label" for="shadow"
+                >Shadow attenuation
+                <output id="shadow-value" for="shadow">0%</output></label
+              ><input
+                type="range"
+                id="shadow"
+                min="0"
+                max="0.9"
+                step="0.05"
+                value="0"
+              />
+              <div class="range-endpoints">
+                <span>None</span><span>90%</span>
+              </div>
+              <button
+                class="button button-primary"
+                id="run-experiment"
+                type="submit"
+              >
+                Run stress test
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="M3 10h13m-5-5 5 5-5 5" />
+                </svg>
+              </button>
+              <p
+                id="experiment-status"
+                class="control-status"
+                role="status"
+                aria-live="polite"
+              >
+                Ready to run.
+              </p>
+            </form>
+          </div>
+          <div
+            id="experiment-error"
+            class="inline-error"
+            role="alert"
+            hidden
+          ></div>
+          <div id="result-area" class="result-area">
+            <div id="review-result" class="review-result"></div>
+            <section class="sweep-panel" aria-labelledby="sweep-title">
+              <div class="section-heading">
+                <div>
+                  <h3 id="sweep-title">How the prediction moves</h3>
+                  <p>
+                    Malignant-class probability across the selected stress path.
+                  </p>
+                </div>
+                <div class="chart-key"><span></span>Calibrated model</div>
+              </div>
+              <div id="sweep-chart"></div>
+              <div class="sweep-foot">
+                <span>Original image</span><span>Full selected stress</span>
+              </div>
+              <p class="chart-note">
+                Each point is an actual model pass. The dashed line is the 50%
+                class boundary; confidence is not clinical certainty.
+              </p>
+            </section>
+          </div>
+          <div class="workspace-footer">
+            <span id="model-fingerprint"></span
+            ><button id="export-experiment" class="text-button">
+              Export experiment JSON
+              <svg class="outbound-icon" viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M5 15 15 5M5 5h10v10" />
+              </svg>
+            </button>
+          </div>
+        </main>
+      </section>
+      <main id="view-benchmark" class="view report-view" hidden tabindex="-1">
+        <div class="page-intro">
+          <div>
+            <h1>Confidence, under pressure.</h1>
+            <p>
+              A fixed model. A held-out test set. Twelve stress conditions.<br />All
+              results below come from the saved checkpoint.
+            </p>
+          </div>
+          <button id="export-report" class="button button-outline">
+            Download full report
+            <svg class="outbound-icon" viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M5 15 15 5M5 5h10v10" />
+            </svg>
+          </button>
+        </div>
+        <div id="benchmark-summary" class="benchmark-summary"></div>
+        <section class="threshold-study" aria-labelledby="threshold-title">
+          <div class="section-heading">
+            <div>
+              <h2 id="threshold-title">Error detection vs. review workload</h2>
+              <p>
+                Cutoffs selected on 78 validation images, then frozen for the
+                156-image test split. Detection means the fraction of model
+                errors flagged for review.
+              </p>
+            </div>
+          </div>
+          <div id="selected-policy-summary" class="policy-summary"></div>
+          <div class="threshold-controls">
+            <label
+              >Split
+              <select id="threshold-split">
+                <option value="validation">Validation — selection split</option>
+                <option value="test">Test — descriptive only</option>
+              </select></label
+            >
+            <label
+              >Condition
+              <select id="threshold-condition"></select
+            ></label>
+            <label
+              >Rule
+              <select id="threshold-rule">
+                <option value="combined">
+                  Combined: confidence + flips + shift
+                </option>
+                <option value="confidence_only">Confidence only</option>
+              </select></label
+            >
+          </div>
+          <div id="threshold-chart"></div>
+          <div class="legend">
+            <span
+              ><i style="--series: #256c57"></i>Error detection
+              sensitivity</span
+            ><span><i style="--series: #b17c32"></i>Review workload</span
+            ><span>Dashed line: validation-selected confidence cutoff</span>
+          </div>
+          <label class="threshold-explorer" for="threshold-explore"
+            >Inspect a cutoff (does not change the selected policy)
+            <output id="threshold-explore-value"></output
+            ><input
+              id="threshold-explore"
+              type="range"
+              min="50"
+              max="100"
+              step="1"
+              value="88"
+          /></label>
+          <p
+            id="threshold-readout"
+            class="threshold-readout"
+            aria-live="polite"
+          ></p>
+          <p class="chart-note">
+            Selection maximizes captured validation errors under a 50% average
+            review budget across clean + 12 equally weighted conditions; it then
+            minimizes review count. The test workload may exceed the budget.
+            Curves reuse images and are not independent patient observations.
+            This study was added after the original test report had been seen,
+            so it is exploratory. Live lab flags retain the clearly labeled 80%
+            / 15 pp baseline.
+          </p>
+        </section>
+        <div class="report-columns">
+          <section class="report-chart">
+            <div class="section-heading">
+              <div>
+                <h2>Acquisition stress vs. accuracy</h2>
+                <p>Paired conditions on the same 156 test images.</p>
+              </div>
+            </div>
+            <div id="benchmark-chart"></div>
+            <div class="legend" id="benchmark-legend"></div>
+          </section>
+          <section class="report-chart">
+            <div class="section-heading">
+              <div>
+                <h2>Does confidence match accuracy?</h2>
+                <p>Clean test split · 10 equal-width confidence bins</p>
+              </div>
+            </div>
+            <div id="calibration-chart"></div>
+            <div class="legend">
+              <span><i style="--series: #b2bdb8"></i>Raw softmax</span
+              ><span
+                ><i style="--series: #256c57"></i>Temperature calibrated</span
+              >
+            </div>
+            <p class="chart-note">
+              Temperature is fitted only on validation data. Empty bins are
+              omitted. Test ECE is descriptive, not proof of calibration.
+            </p>
+          </section>
+        </div>
+        <section class="benchmark-table-section">
+          <div class="section-heading">
+            <div>
+              <h2>Where the review rule helps—and costs</h2>
+              <p>
+                Flag if confidence &lt;80%, class flips, or malignant-class
+                probability shifts &gt;15 percentage points.
+              </p>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <caption>
+                Test results by digital stress condition. Error capture uses
+                benchmark labels only for evaluation.
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Condition</th>
+                  <th scope="col">Accuracy</th>
+                  <th scope="col">Confident errors</th>
+                  <th scope="col">Sent to review</th>
+                  <th scope="col">Errors captured</th>
+                  <th scope="col">Unflagged accuracy</th>
+                </tr>
+              </thead>
+              <tbody id="benchmark-rows"></tbody>
+            </table>
+          </div>
+          <p class="chart-note">
+            “Confident error” means an incorrect prediction at ≥80% calibrated
+            confidence. Unflagged does not mean safe. Compare the rule with
+            confidence-only review in the exported report.
+          </p>
+        </section>
+        <section id="benchmark-finding" class="finding"></section>
+      </main>
+      <main id="view-queue" class="view report-view" hidden tabindex="-1">
+        <div class="page-intro">
+          <div>
+            <h1>Put instability in view.</h1>
+            <p>
+              A research review queue with the exact reason each image was
+              flagged.<br />Review marks are local notes, not clinical
+              decisions.
+            </p>
+          </div>
+          <button id="export-queue" class="button button-outline">
+            Export queue JSON
+            <svg class="outbound-icon" viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M5 15 15 5M5 5h10v10" />
+            </svg>
+          </button>
+        </div>
+        <section class="queue-runner">
+          <div>
+            <h2>Audit the full test split</h2>
+            <p id="batch-settings"></p>
+            <p>
+              Runs the current lab settings on all 156 held-out images. The flag
+              never uses the dataset label.
+            </p>
+          </div>
+          <button id="run-batch" class="button button-primary">
+            Audit 156 images
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M3 10h13m-5-5 5 5-5 5" />
+            </svg>
+          </button>
+        </section>
+        <p id="batch-status" role="status" aria-live="polite"></p>
+        <progress
+          id="batch-progress"
+          max="156"
+          value="0"
+          hidden
+          aria-label="Test split audit progress"
+        ></progress>
+        <div class="queue-toolbar">
+          <h2 id="queue-heading">Flagged experiments</h2>
+          <label
+            >Show
+            <select id="queue-filter">
+              <option value="all">All flagged</option>
+              <option value="pending">Awaiting review</option>
+              <option value="reviewed">Marked reviewed</option>
+            </select></label
+          ><button id="clear-queue" class="text-button">
+            Clear local queue
+          </button>
+        </div>
+        <div id="queue-summary" class="queue-summary"></div>
+        <div id="queue-list"></div>
+      </main>
+      <main id="view-methods" class="view methods-view" hidden tabindex="-1">
+        <div class="page-intro">
+          <div>
+            <h1>Built to be questioned.</h1>
+            <p>The protocol, provenance and boundaries behind every number.</p>
+          </div>
+        </div>
+        <div class="methods-grid">
+          <nav aria-label="Methods sections">
+            <a href="#data-method">Dataset & attribution</a
+            ><a href="#model-method">Model & calibration</a
+            ><a href="#stress-method">Stress protocol</a
+            ><a href="#review-method">Review policy</a
+            ><a href="#limits-method">Limits & next steps</a>
+          </nav>
+          <article>
+            <section id="data-method">
+              <h2>Public images. Explicit provenance.</h2>
+              <p>
+                GainGuard uses
+                <a href="https://medmnist.com/" target="_blank" rel="noreferrer"
+                  >BreastMNIST from MedMNIST</a
+                >, derived from the breast-ultrasound dataset by Al-Dhabyani and
+                colleagues. The 64 × 64 release contains 780 grayscale images.
+                We preserve its official split: 546 training, 78 validation and
+                156 test images.
+              </p>
+              <p>
+                The official binary mapping is
+                <strong>0 = malignant, 1 = normal / benign</strong>. Normal and
+                benign are merged; the model cannot distinguish them. Test
+                labels include 42 malignant and 114 normal/benign images.
+                Samples are images, not verified independent patients.
+              </p>
+              <p>
+                Data:
+                <a
+                  href="https://zenodo.org/records/10519652"
+                  target="_blank"
+                  rel="noreferrer"
+                  >MedMNIST+ on Zenodo</a
+                >, CC BY 4.0. Citations: Yang et al.,
+                <em>Scientific Data</em> 10, 41 (2023),
+                <a
+                  href="https://doi.org/10.1038/s41597-022-01721-8"
+                  target="_blank"
+                  rel="noreferrer"
+                  >doi:10.1038/s41597-022-01721-8</a
+                >; Al-Dhabyani et al., <em>Data in Brief</em> 28, 104863 (2020),
+                <a
+                  href="https://doi.org/10.1016/j.dib.2019.104863"
+                  target="_blank"
+                  rel="noreferrer"
+                  >doi:10.1016/j.dib.2019.104863</a
+                >. Displayed images are resized for viewing; no detail beyond
+                the 64 × 64 input is recovered.
+              </p>
+            </section>
+            <section id="model-method">
+              <h2>A small, inspectable baseline.</h2>
+              <div id="model-method-details"></div>
+              <p>
+                The network has three convolutional layers, adaptive pooling and
+                a two-class head. Input pixels are divided by 255. Training uses
+                AdamW, batch size 32, learning rate 0.001 and weight decay 0.01,
+                without augmentation or pretraining. The checkpoint with the
+                lowest validation cross-entropy is selected from 60 epochs. The
+                test set is never used for model selection.
+              </p>
+              <p>
+                Temperature scaling divides logits by a positive scalar. A fixed
+                0.5–4.0 grid (141 candidates) minimizes validation negative
+                log-likelihood. It changes probabilities, not the predicted
+                class. Model selection and temperature fitting share the small
+                validation set; calibration can overfit.
+              </p>
+              <p>
+                Binary Brier score uses malignant-class probability. ECE uses 10
+                equal-width bins of maximum class probability. AUROC treats
+                malignant as the positive class and gives ties half credit.
+                Accuracy intervals use the Wilson method at 95%; they ignore
+                image clustering and training variance.
+              </p>
+            </section>
+            <section id="stress-method">
+              <h2>Change the pixels, hold the model fixed.</h2>
+              <p>
+                Gain: multiply normalized intensity by 10<sup>dB/20</sup>.
+                Speckle proxy: multiply intensity by (1 + σZ), with Z drawn from
+                a seeded standard normal. Shadow proxy: apply a depth-increasing
+                Gaussian attenuation column centered at 55% of image width. Clip
+                to [0, 1], then round to 8-bit pixels.
+              </p>
+              <p>
+                The benchmark evaluates −3/−6/−9 dB gain, +3/+6/+9 dB gain, σ =
+                0.15/0.30/0.45 speckle, and 25/50/75% maximum shadow
+                attenuation. The interactive lab also supports combined
+                stresses. Each image uses seed 20261014 + its zero-based test
+                index; the same noise realization is scaled across severity.
+              </p>
+              <p>
+                These are digital robustness probes,
+                <strong>not a validated ultrasound simulator</strong>. Real
+                scanner gain often acts in a log-compressed pipeline. Synthetic
+                transforms can remove meaningful features, particularly at high
+                severity. We do not establish label preservation or model real
+                deployment performance.
+              </p>
+            </section>
+            <section id="review-method">
+              <p>
+                The Benchmark threshold study separately tunes cutoffs on
+                validation data only, freezes them for test, and plots all 51
+                confidence cutoffs. Its 50% average validation review budget is
+                a research protocol choice, not a clinical requirement. It
+                reuses the same 78 validation images and was added after the
+                original test report, so the new comparison is exploratory. Live
+                lab flags preserve the original fixed baseline below.
+              </p>
+              <h2>An auditable rule, not a safety guarantee.</h2>
+              <p>
+                An experiment is flagged when any of three conditions holds:
+                calibrated confidence is below 80%; the predicted class differs
+                from the original; or malignant-class probability changes by
+                more than 15 percentage points. The cutoffs are fixed
+                demonstration choices, not optimized on test labels or validated
+                for clinical use.
+              </p>
+              <p>
+                “Error capture” is the fraction of incorrect predictions sent to
+                review. “Review rate” is the fraction of all images flagged.
+                “Unflagged accuracy” excludes flagged images and must always be
+                read with coverage. The rule can miss confidently wrong
+                predictions that remain stable. A review mark simply records
+                that a researcher inspected a case.
+              </p>
+              <p>
+                Entropy is binary predictive entropy in bits, ranging from 0 to
+                1. It describes the distribution of this model’s outputs;
+                neither entropy nor softmax confidence represents the
+                probability that a patient has cancer.
+              </p>
+            </section>
+            <section id="limits-method">
+              <h2>What this prototype does not establish.</h2>
+              <ul id="limitations-list"></ul>
+              <p>
+                This is a focused application of existing robustness and
+                calibration methods, not a claim to have invented corruption
+                testing. Relevant prior work includes
+                <a
+                  href="https://arxiv.org/abs/2406.17536"
+                  target="_blank"
+                  rel="noreferrer"
+                  >MedMNIST-C</a
+                >
+                and
+                <a
+                  href="https://proceedings.mlr.press/v70/guo17a.html"
+                  target="_blank"
+                  rel="noreferrer"
+                  >temperature scaling by Guo et al.</a
+                >
+              </p>
+              <p>
+                Next experiments: repeated training seeds, patient-grouped
+                external data, real scanner metadata, physically grounded
+                corruptions, validation-selected review budgets and comparison
+                with augmentation-trained models. Clinical decisions require a
+                different study and appropriate expert oversight.
+              </p>
+            </section>
+          </article>
+        </div>
+      </main>
+    </div>
+    <footer class="app-footer">
+      <a
+        href="https://github.com/suhaslord/codethecure"
+        target="_blank"
+        rel="noreferrer"
+        >Source & run instructions</a
+      >
+      <a
+        href="https://gainguard-ultrasound-lab.brightsiderai.chatgpt.site/gainguard-demo.mp4"
+        target="_blank"
+        rel="noreferrer"
+        >Watch the 2:56 demo</a
+      >
+      <span
+        >GainGuard <span class="muted">/ Ultrasound reliability lab</span></span
+      ><span>Built for questions. Designed for research.</span
+      ><a href="#methods"
+        >Protocol & sources
+        <svg class="outbound-icon" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5 15 15 5M5 5h10v10" /></svg
+      ></a>
+    </footer>
+  </body>
+</html>

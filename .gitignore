@@ -1,0 +1,16 @@
+__pycache__/
+.venv/
+data/*.npz
+data/*.download
+dist/
+.site-deploy/
+.audit-tools/
+.repro-check/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.impeccable/sketches/
+*.log
+docs/demo/

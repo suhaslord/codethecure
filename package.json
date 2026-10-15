@@ -1,0 +1,11 @@
+{
+  "name": "gainguard",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "python server.py",
+    "train": "python -m research.train",
+    "test": "python -m unittest discover -s tests -v",
+    "check": "node --check web/app.js"
+  }
+}

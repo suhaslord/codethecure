@@ -1,0 +1,323 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-15T05:40:02.396Z",
+  "title": "Design System: GainGuard",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Daylight paper",
+        "tonalRamp": [
+          "oklch(15.00% 0.00448 134.85)",
+          "oklch(26.43% 0.00448 134.85)",
+          "oklch(37.86% 0.00448 134.85)",
+          "oklch(49.29% 0.00448 134.85)",
+          "oklch(60.71% 0.00448 134.85)",
+          "oklch(72.14% 0.00448 134.85)",
+          "oklch(83.57% 0.00448 134.85)",
+          "oklch(95.00% 0.00448 134.85)"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "tonalRamp": [
+          "oklch(15.00% 0.00000 89.88)",
+          "oklch(26.43% 0.00000 89.88)",
+          "oklch(37.86% 0.00000 89.88)",
+          "oklch(49.29% 0.00000 89.88)",
+          "oklch(60.71% 0.00000 89.88)",
+          "oklch(72.14% 0.00000 89.88)",
+          "oklch(83.57% 0.00000 89.88)",
+          "oklch(95.00% 0.00000 89.88)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Deep green ink",
+        "tonalRamp": [
+          "oklch(15.00% 0.02931 174.12)",
+          "oklch(26.43% 0.02931 174.12)",
+          "oklch(37.86% 0.02931 174.12)",
+          "oklch(49.29% 0.02931 174.12)",
+          "oklch(60.71% 0.02931 174.12)",
+          "oklch(72.14% 0.02931 174.12)",
+          "oklch(83.57% 0.02931 174.12)",
+          "oklch(95.00% 0.02931 174.12)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted green grey",
+        "tonalRamp": [
+          "oklch(15.00% 0.02300 163.92)",
+          "oklch(26.43% 0.02300 163.92)",
+          "oklch(37.86% 0.02300 163.92)",
+          "oklch(49.29% 0.02300 163.92)",
+          "oklch(60.71% 0.02300 163.92)",
+          "oklch(72.14% 0.02300 163.92)",
+          "oklch(83.57% 0.02300 163.92)",
+          "oklch(95.00% 0.02300 163.92)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Pale divider",
+        "tonalRamp": [
+          "oklch(15.00% 0.01202 145.48)",
+          "oklch(26.43% 0.01202 145.48)",
+          "oklch(37.86% 0.01202 145.48)",
+          "oklch(49.29% 0.01202 145.48)",
+          "oklch(60.71% 0.01202 145.48)",
+          "oklch(72.14% 0.01202 145.48)",
+          "oklch(83.57% 0.01202 145.48)",
+          "oklch(95.00% 0.01202 145.48)"
+        ]
+      },
+      "green": {
+        "role": "primary",
+        "displayName": "Operational green",
+        "tonalRamp": [
+          "oklch(15.00% 0.07852 170.06)",
+          "oklch(26.43% 0.07852 170.06)",
+          "oklch(37.86% 0.07852 170.06)",
+          "oklch(49.29% 0.07852 170.06)",
+          "oklch(60.71% 0.07852 170.06)",
+          "oklch(72.14% 0.07852 170.06)",
+          "oklch(83.57% 0.07852 170.06)",
+          "oklch(95.00% 0.07852 170.06)"
+        ]
+      },
+      "forest": {
+        "role": "primary",
+        "displayName": "Deep forest",
+        "tonalRamp": [
+          "oklch(15.00% 0.04850 178.27)",
+          "oklch(26.43% 0.04850 178.27)",
+          "oklch(37.86% 0.04850 178.27)",
+          "oklch(49.29% 0.04850 178.27)",
+          "oklch(60.71% 0.04850 178.27)",
+          "oklch(72.14% 0.04850 178.27)",
+          "oklch(83.57% 0.04850 178.27)",
+          "oklch(95.00% 0.04850 178.27)"
+        ]
+      },
+      "soft": {
+        "role": "neutral",
+        "displayName": "Soft sage",
+        "tonalRamp": [
+          "oklch(15.00% 0.01237 137.78)",
+          "oklch(26.43% 0.01237 137.78)",
+          "oklch(37.86% 0.01237 137.78)",
+          "oklch(49.29% 0.01237 137.78)",
+          "oklch(60.71% 0.01237 137.78)",
+          "oklch(72.14% 0.01237 137.78)",
+          "oklch(83.57% 0.01237 137.78)",
+          "oklch(95.00% 0.01237 137.78)"
+        ]
+      },
+      "amber": {
+        "role": "secondary",
+        "displayName": "Review amber",
+        "tonalRamp": [
+          "oklch(15.00% 0.10054 64.94)",
+          "oklch(26.43% 0.10054 64.94)",
+          "oklch(37.86% 0.10054 64.94)",
+          "oklch(49.29% 0.10054 64.94)",
+          "oklch(60.71% 0.10054 64.94)",
+          "oklch(72.14% 0.10054 64.94)",
+          "oklch(83.57% 0.10054 64.94)",
+          "oklch(95.00% 0.10054 64.94)"
+        ]
+      },
+      "amber-bg": {
+        "role": "secondary",
+        "displayName": "Review amber field",
+        "tonalRamp": [
+          "oklch(15.00% 0.03369 86.31)",
+          "oklch(26.43% 0.03369 86.31)",
+          "oklch(37.86% 0.03369 86.31)",
+          "oklch(49.29% 0.03369 86.31)",
+          "oklch(60.71% 0.03369 86.31)",
+          "oklch(72.14% 0.03369 86.31)",
+          "oklch(83.57% 0.03369 86.31)",
+          "oklch(95.00% 0.03369 86.31)"
+        ]
+      },
+      "red": {
+        "role": "secondary",
+        "displayName": "Error red",
+        "tonalRamp": [
+          "oklch(15.00% 0.12581 31.24)",
+          "oklch(26.43% 0.12581 31.24)",
+          "oklch(37.86% 0.12581 31.24)",
+          "oklch(49.29% 0.12581 31.24)",
+          "oklch(60.71% 0.12581 31.24)",
+          "oklch(72.14% 0.12581 31.24)",
+          "oklch(83.57% 0.12581 31.24)",
+          "oklch(95.00% 0.12581 31.24)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Question-led experiment heading; report headings use their observed fixed sizes."
+      },
+      "title": {
+        "displayName": "Small section title",
+        "purpose": "Controls and compact result sections."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Explanations, review reasons and queue descriptions."
+      },
+      "label": {
+        "displayName": "Supporting label",
+        "purpose": "Secondary metadata and chart notes; not the tiny in-image annotations."
+      },
+      "measurement": {
+        "displayName": "Measurement",
+        "purpose": "Exact values, sample IDs and numeric chart/table labels."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "button-state",
+        "value": "background 0.16s, color 0.16s",
+        "purpose": "Shared button color transitions."
+      },
+      {
+        "name": "image-filter",
+        "value": "filter 0.25s",
+        "purpose": "Image filter update."
+      },
+      {
+        "name": "probability-fill",
+        "value": "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Probability bar horizontal scale."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation: none !important; transition: none !important; scroll-behavior: auto !important",
+        "purpose": "Applied to all elements and pseudo-elements when reduced motion is requested."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "min-width: 1550px"
+      },
+      {
+        "name": "compact",
+        "value": "max-width: 1100px"
+      },
+      {
+        "name": "mobile",
+        "value": "max-width: 760px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Run experiment",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary operational action.",
+      "html": "<button class=\"ds-button-primary\">Run experiment</button>",
+      "css": ".ds-button-primary{font-family:\"Public Sans\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:12px;font-weight:600;border-radius:7px;padding:12px 15px;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;transition:background .16s,color .16s;border:0;background:var(--forest,#123c34);color:var(--white,#fff);}.ds-button-primary:hover:not(:disabled){filter:brightness(.96);background:#205744}.ds-button-primary:focus-visible{outline:3px solid #a0be7e;outline-offset:4px}.ds-button-primary:disabled{opacity:.55;cursor:wait}"
+    },
+    {
+      "name": "Load failure example",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action with a quiet outline.",
+      "html": "<button class=\"ds-button-outline\">Load failure example</button>",
+      "css": ".ds-button-outline{font-family:\"Public Sans\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:12px;font-weight:600;border-radius:7px;padding:12px 15px;min-height:40px;display:inline-flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;transition:background .16s,color .16s;border:1px solid #cbd5c9;background:transparent;color:var(--ink,#1b302a);}.ds-button-outline:hover:not(:disabled){filter:brightness(.96);}.ds-button-outline:focus-visible{outline:3px solid #a0be7e;outline-offset:4px}.ds-button-outline:disabled{opacity:.55;cursor:wait}"
+    },
+    {
+      "name": "Text action",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "Compact contextual action.",
+      "html": "<button class=\"ds-text-button\">Reset</button>",
+      "css": ".ds-text-button{font-family:\"Public Sans\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:12px;font-weight:550;background:none;border:0;padding:4px 0;color:var(--green,#256c57);cursor:pointer;transition:background .16s,color .16s}.ds-text-button:hover{filter:brightness(.96);text-decoration:underline;text-underline-offset:4px}.ds-text-button:focus-visible{outline:3px solid #a0be7e;outline-offset:4px}"
+    },
+    {
+      "name": "Search field",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "Native search in a white outlined container.",
+      "html": "<label class=\"ds-search\"><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"8.5\" cy=\"8.5\" r=\"5.5\"/><path d=\"m13 13 4 4\"/></svg><input type=\"search\" aria-label=\"Find sample by ID\" placeholder=\"Find sample…\"></label>",
+      "css": ".ds-search{display:flex;gap:7px;align-items:center;background:var(--white,#fff);border:1px solid var(--line,#dce3dc);border-radius:6px;padding:8px 9px}.ds-search svg{width:14px;height:14px;fill:none;stroke:var(--muted,#5c6c64);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}.ds-search input{font-family:\"Public Sans\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:12px;color:var(--ink,#1b302a);border:0;background:none;width:100%;min-width:0}.ds-search input::placeholder{color:var(--muted,#5c6c64)}.ds-search input:focus-visible{outline:3px solid #a0be7e;outline-offset:4px;outline-offset:5px}"
+    },
+    {
+      "name": "Workspace navigation",
+      "kind": "nav",
+      "description": "Text navigation with current-page bottom rule.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Workspace\"><a href=\"#lab\" aria-current=\"page\">Experiment lab</a><a href=\"#benchmark\">Benchmark</a><a href=\"#queue\">Review queue</a></nav>",
+      "css": ".ds-nav{display:flex;gap:27px;min-height:62px;overflow-x:auto}.ds-nav a{font-family:\"Public Sans\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:13px;font-weight:550;display:flex;align-items:center;text-decoration:none;color:var(--muted,#5c6c64);white-space:nowrap;position:relative}.ds-nav a[aria-current=\"page\"]{color:var(--forest,#123c34)}.ds-nav a[aria-current=\"page\"]:after{content:\"\";position:absolute;height:3px;background:var(--green,#256c57);bottom:0;left:0;right:0}.ds-nav a:focus-visible{outline:3px solid #a0be7e;outline-offset:4px}"
+    },
+    {
+      "name": "Queue count",
+      "kind": "chip",
+      "refersTo": "queue-count",
+      "description": "Informational count beside navigation text.",
+      "html": "<span class=\"ds-count\">0</span>",
+      "css": ".ds-count{font-family:\"Public Sans\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-size:10px;padding:2px 5px;background:var(--soft,#eaf0e8);border-radius:4px;color:var(--forest,#123c34)}"
+    },
+    {
+      "name": "Review result",
+      "kind": "card",
+      "refersTo": "review-panel",
+      "description": "Amber review attention with explicit status and reason; example copy illustrates layout only.",
+      "html": "<section class=\"ds-review\"><h3><svg viewBox=\"0 0 20 20\" aria-hidden=\"true\"><path d=\"M4 17V3m0 1h11l-2 4 2 4H4\"/></svg>Flagged for human review</h3><p>This result crossed the fixed research review policy.</p><ul><li>Prediction changed</li></ul></section>",
+      "css": ".ds-review{font-family:\"Public Sans\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;background:var(--amber-bg,#fbf0d8);border-radius:var(--radius,12px);padding:20px}.ds-review h3{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:650;color:#74470e;margin:0}.ds-review svg{height:18px;width:18px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}.ds-review p{font-size:12px;line-height:1.7;margin:9px 0 0;color:#795b31}.ds-review ul{padding-left:16px;font-size:12px;line-height:1.8;color:#795b31;margin:8px 0 0}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The daylight measurement workbench",
+    "overview": "GainGuard uses the user-approved light measurement-workbench direction: quiet green-tinted paper, dark green operational controls, real ultrasound imagery and explicit numeric results. Its character is precise, restrained and dense enough for research. Public Sans supports both the large question-led headings and compact controls; monospace values separate measurements from explanatory prose.\n\nThis record describes the shipped dependency-free interface in `web/index.html`, `web/styles.css` and `web/app.js`. It covers shared visual behavior across the experiment, benchmark, queue and methods views. The chosen world is recorded in `docs/direction.md`; no generated comp or catalog QUALITY BAR card was selected. The supplied desktop and mobile frames in `docs/evidence/` were extracted from compressed native recordings because native screenshot capture failed. They support broad composition checks; fine rendered detail is not fully verified. Exact tokens below come from source, including its final readability overrides.",
+    "keyCharacteristics": [
+      "Light, flat surfaces separated by fine rules and tonal fields.",
+      "Dark real-image fields with matched comparison geometry.",
+      "Green actions and measurements; amber review attention and red model-error markers.",
+      "Plain text explanations beside exact values and units."
+    ],
+    "rules": [
+      {
+        "name": "The State Has Meaning Rule",
+        "body": "Green, amber and red carry operational or result meaning; preserve their text labels and reasons so color is never the only state cue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Readable Result Rule",
+        "body": "Inherit the final control/result sizing, not the obsolete small sizes earlier in the stylesheet. Keep values, units, dataset labels and model-output labels distinct.",
+        "section": "typography"
+      },
+      {
+        "name": "The Comparison Geometry Rule",
+        "body": "Give original and stressed images equal fields and the same containment treatment so visual changes can be compared directly.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Workbench Rule",
+        "body": "Use tonal fields and dividers for hierarchy; preserve the flat surface grammar of the shipped workbench.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve equal geometry for paired images and keep measured outputs attached to their image.",
+      "Do use Public Sans for prose and interface text, with monospace measurements and explicit units.",
+      "Do retain text labels, review reasons and visible keyboard focus alongside semantic color.",
+      "Do use flat tonal panels and fine dividers, with responsive stacking and explicit table overflow."
+    ],
+    "donts": [
+      "Don't replace real ultrasound evidence with decorative imagery.",
+      "Don't collapse dataset truth, model output and review status into one undifferentiated label.",
+      "Don't inherit the earlier tiny control/result declarations instead of the final readable overrides.",
+      "Don't add clinical visual theater to the user-approved research workbench."
+    ]
+  }
+}
